@@ -3,106 +3,80 @@
 <head>
 <meta charset="utf-8">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  .page { width: 1024px; height: 1024px; position: relative; background: #0e1220; overflow: hidden; font-family: 'Arial Black','Helvetica Neue',Arial,sans-serif; }
-  .bggrid { position:absolute; inset:0; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 51.2px 51.2px; }
-  .dateband { position:absolute; top:0; left:0; right:0; height:118px; background:#0a0e1a; border-bottom:3px solid #ffd23f; display:flex; align-items:center; padding:0 44px; }
-  .dateband .d { color:#ffd23f; font-size:64px; font-weight:900; letter-spacing:1px; }
-  .dateband .y { color:#8fa3c8; font-size:26px; font-weight:700; margin-left:18px; line-height:1.2; }
-  .dateband .w { color:#5b6c8f; font-size:20px; font-weight:700; text-align:right; margin-left:auto; }
-  .cols { position:absolute; top:118px; left:0; right:0; bottom:64px; display:flex; gap:14px; padding:14px; }
-  .col { flex:1; display:flex; flex-direction:column; gap:14px; }
-  .card { flex:1; border-radius:10px; padding:14px 16px; position:relative; overflow:hidden; }
-  .card .tag { display:inline-block; font-size:15px; font-weight:900; letter-spacing:1.5px; padding:3px 10px; border-radius:4px; color:#0a0e1a; margin-bottom:8px; }
-  .card h2 { color:#fff; font-size:23px; line-height:1.18; font-weight:900; }
-  .card p { color:#b8c4dd; font-size:14.5px; line-height:1.35; margin-top:7px; font-weight:600; }
-  .card .num { position:absolute; right:12px; top:10px; font-size:40px; font-weight:900; opacity:.22; color:#fff; }
-  .red    { background:linear-gradient(160deg,#8a1c1c,#5e1010); } .red .tag{ background:#ff5a5a; }
-  .amber  { background:linear-gradient(160deg,#8a5a12,#5e3c0a); } .amber .tag{ background:#ffb340; }
-  .blue   { background:linear-gradient(160deg,#143a6e,#0c2547); } .blue .tag{ background:#4d9bff; }
-  .teal   { background:linear-gradient(160deg,#0e5a4a,#093d33); } .teal .tag{ background:#2dd4a7; }
-  .purple { background:linear-gradient(160deg,#4a2a7e,#2e1a52); } .purple .tag{ background:#a78bfa; }
-  .slate  { background:linear-gradient(160deg,#39404f,#252a35); } .slate .tag{ background:#9fb0cc; }
-  .green  { background:linear-gradient(160deg,#1d5e20,#123c15); } .green .tag{ background:#5dd45f; }
-  .pink   { background:linear-gradient(160deg,#7e2a54,#521c38); } .pink .tag{ background:#ff7ab8; }
-  .footer { position:absolute; bottom:0; left:0; right:0; height:64px; background:#0a0e1a; border-top:2px solid #2a3550; display:flex; align-items:center; padding:0 44px; }
-  .footer .f1 { color:#ffd23f; font-size:17px; font-weight:900; letter-spacing:.5px; white-space:nowrap; }
-  .footer .f2 { color:#5b6c8f; font-size:12.5px; font-weight:700; margin-left:auto; white-space:nowrap; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  .page { width:1024px; height:1024px; position:relative; background:#f4efe4; font-family: Georgia,'Times New Roman',serif; color:#1a1611; overflow:hidden; }
+  .masthead { position:absolute; top:0; left:0; right:0; height:96px; background:#f4efe4; border-bottom:4px double #1a1611; padding:0 30px; display:flex; align-items:center; }
+  .mh-left { font-size:15px; line-height:1.35; color:#5a5347; width:250px; }
+  .mh-title { font-size:56px; font-weight:900; letter-spacing:-1px; text-align:center; flex:1; font-family:'Times New Roman',serif; }
+  .mh-title .yellowbar { display:block; background:#1a1611; color:#f4efe4; font-size:13px; letter-spacing:4px; padding:2px 0; margin-top:4px; font-family:Arial; font-weight:700;}
+  .mh-right { font-size:15px; line-height:1.35; color:#5a5347; width:250px; text-align:right; }
+  .body { position:absolute; top:96px; bottom:34px; left:0; right:0; padding:12px 14px; column-count:3; column-gap:14px; column-rule:1px solid #b8ad99; }
+  .story { break-inside:avoid; margin-bottom:10px; border-bottom:1px solid #cfc6b4; padding-bottom:8px; }
+  .story h3 { font-size:16.5px; line-height:1.16; font-weight:700; margin-bottom:3px; }
+  .story p { font-size:12.3px; line-height:1.3; color:#3c372e; }
+  .story .kicker { font-family:Arial; font-size:10px; font-weight:800; letter-spacing:1.5px; color:#8a1c1c; }
+  .story.lead { background:#1a1611; color:#f4efe4; margin:-2px -4px 10px; padding:10px 12px; border:none; }
+  .story.lead h3 { color:#ffd23f; font-size:21px; }
+  .story.lead p { color:#d8d2c4; font-size:12.5px; }
+  .story.lead .kicker { color:#ff9d5c; }
+  .stat-strip { background:#e7dfcd; border:1px solid #b8ad99; padding:7px 10px; margin-bottom:10px; break-inside:avoid; }
+  .stat-strip .big { font-size:20px; font-weight:900; font-family:Arial; }
+  .stat-strip .lbl { font-size:11px; color:#5a5347; font-family:Arial; font-weight:700; }
+  .dateflash { position:absolute; bottom:0; left:0; right:0; height:34px; background:#1a1611; display:flex; align-items:center; padding:0 30px; }
+  .dateflash .d { color:#ffd23f; font-family:Arial; font-weight:900; font-size:15px; letter-spacing:1px; }
+  .dateflash .s { color:#8b8577; font-family:Arial; font-size:11.5px; margin-left:auto; }
 </style>
 </head>
 <body>
 <div class="page">
-  <div class="bggrid"></div>
-  <div class="dateband">
-    <span class="d">NOV 18</span>
-    <span class="y">2026<br>THE DAY IN ONE PAGE</span>
-    <span class="w">WEDNESDAY<br>WORLD NEWS</span>
+  <div class="masthead">
+    <div class="mh-left">Vol. CXCVIII &middot; No. 322<br><b>THE WORLD, IN ONE PAGE</b></div>
+    <div class="mh-title">NOV 18, 2026<span class="yellowbar">WEDNESDAY &middot; WORLD NEWS DAILY</span></div>
+    <div class="mh-right">Est. 2026 &middot; 30 stories<br>Every beat. Every region.</div>
   </div>
-  <div class="cols">
-    <div class="col">
-      <div class="card red">
-        <span class="num">1</span>
-        <span class="tag">MIDEAST</span>
-        <h2>US strikes Iran's Qeshm missile site; Iran hits US bases in Kuwait &amp; Bahrain</h2>
-        <p>War day 262. Qatar &amp; Oman push mediation; Brent oil holds above $93 as Hormuz shipping stays under threat.</p>
-      </div>
-      <div class="card amber">
-        <span class="num">2</span>
-        <span class="tag">WASHINGTON</span>
-        <h2>US intel eyes reported Iran "dirty bomb" plot on DC</h2>
-        <p>Trump: "we're looking into it." Rubio says no imminent threat; Iran calls the report baseless.</p>
-      </div>
-      <div class="card slate">
-        <span class="num">3</span>
-        <span class="tag">TECH OUTAGES</span>
-        <h2>NSA classified network goes down amid nationwide outages</h2>
-        <p>Microsoft, FAA, JPMorgan and Apple hit; Rubio: "zero" evidence of a coordinated cyberattack.</p>
-      </div>
+  <div class="body">
+    <div class="story lead">
+      <span class="kicker">MIDEAST &middot; WAR DAY 262</span>
+      <h3>US hits Iran&rsquo;s Qeshm missile site; Iran strikes US bases in Kuwait &amp; Bahrain</h3>
+      <p>The nine-month war escalates again around the Strait of Hormuz. Qatar and Oman push mediation; Brent crude holds above $93 as tanker attacks continue.</p>
     </div>
-    <div class="col">
-      <div class="card blue">
-        <span class="num">4</span>
-        <span class="tag">APEC · SHENZHEN</span>
-        <h2>Trump flies to China for first-ever Trump–Xi–Putin summit</h2>
-        <p>Putin and Xi meet ahead of Thursday's trilateral talks on arms control, Ukraine and Iran.</p>
-      </div>
-      <div class="card teal">
-        <span class="num">5</span>
-        <span class="tag">UKRAINE</span>
-        <h2>Allies clash over deep strikes into Russia</h2>
-        <p>Pentagon urges focus on the frontline; Germany calls that "quite stupid". Kyiv hails Kerch Bridge hit as "unprecedented".</p>
-      </div>
-      <div class="card purple">
-        <span class="num">6</span>
-        <span class="tag">MARKETS</span>
-        <h2>Nvidia revenue doubles to $115.8B; gold sinks below $3,800</h2>
-        <p>Q3 data-center sales up 110%; stock buyback raised $150B. Fed officials signal more rate hikes; US 10-year yield near 5%.</p>
-      </div>
+    <div class="stat-strip">
+      <span class="big">$1.45B</span> <span class="lbl">GTA VI PREORDERS</span> &nbsp;&middot;&nbsp;
+      <span class="big">$3,792</span> <span class="lbl">GOLD, 1-YR LOW</span> &nbsp;&middot;&nbsp;
+      <span class="big">14.9M</span> <span class="lbl">GTA VI UNITS</span>
     </div>
-    <div class="col">
-      <div class="card green">
-        <span class="num">7</span>
-        <span class="tag">GAMING</span>
-        <h2>GTA VI unlock begins: NZ midnight, $1.45B in preorders</h2>
-        <p>13-year wait ends; 14.9M digital preorders set an all-time record ahead of the Nov 19 global launch.</p>
-      </div>
-      <div class="card pink">
-        <span class="num">8</span>
-        <span class="tag">EUROPE</span>
-        <h2>France public-sector strike over pay; Czech train crash injures 46</h2>
-        <p>Budget standoff deepens in Paris. Two trains collide near Prague's main station, four critical.</p>
-      </div>
-      <div class="card slate">
-        <span class="num">9</span>
-        <span class="tag">WORLD</span>
-        <h2>Bangladesh's first nuclear plant connects to grid</h2>
-        <p>2,400 MW Rooppur plant, Russian-built, to cover over 10% of demand. Democrats take Alaska Senate seat, 56–44.</p>
-      </div>
-    </div>
+    <div class="story"><span class="kicker">WASHINGTON</span><h3>Intel eyes reported Iran &ldquo;dirty bomb&rdquo; plot on DC</h3><p>Trump: &ldquo;we&rsquo;re looking into it.&rdquo; Rubio: no imminent threat. Tehran calls it baseless.</p></div>
+    <div class="story"><span class="kicker">TECH</span><h3>NSA classified network goes down in outage wave</h3><p>Microsoft, FAA, JPMorgan, Apple hit. Rubio: &ldquo;zero&rdquo; evidence of coordinated cyberattack.</p></div>
+    <div class="story"><span class="kicker">APEC &middot; SHENZHEN</span><h3>Trump flies to China for first Trump&ndash;Xi&ndash;Putin summit</h3><p>Historic trilateral Thursday; Putin and Xi meet first. Chips, AI, arms control on table.</p></div>
+    <div class="story"><span class="kicker">UKRAINE</span><h3>Allies split over deep strikes into Russia</h3><p>Pentagon warns they&rsquo;re counterproductive; Germany: &ldquo;quite stupid.&rdquo; Kerch Bridge suffers &ldquo;critical damage,&rdquo; Zelenskyy says.</p></div>
+    <div class="story"><span class="kicker">MARKETS</span><h3>Nvidia revenue doubles to $115.8B</h3><p>Q3 data-center up 110%, $150B more buybacks. Gold sinks below $3,800; 10-yr yield near 5%.</p></div>
+    <div class="story"><span class="kicker">GAMING</span><h3>GTA VI unlock begins in New Zealand</h3><p>13-year wait ends at NZ midnight; 14.9M digital preorders, biggest launch ever.</p></div>
+    <div class="story"><span class="kicker">EUROPE</span><h3>French public-sector strike; Czech trains collide</h3><p>Pay walkout as budget stalls. 46 hurt near Prague main station, four critical.</p></div>
+    <div class="story"><span class="kicker">EU</span><h3>Commission accuses Temu of breaching DSA</h3><p>Illegal, unsafe products; enforcement steps next. Five states unveil fossil phase-out plans at COP31.</p></div>
+    <div class="story"><span class="kicker">ASIA</span><h3>Bangladesh&rsquo;s first nuclear plant on the grid</h3><p>2,400 MW Russian-built Rooppur to top 10% of demand.</p></div>
+    <div class="story"><span class="kicker">US POLITICS</span><h3>Democrats take Alaska Senate seat</h3><p>Peltola beats Sullivan; 56&ndash;44 Senate in January.</p></div>
+    <div class="story"><span class="kicker">CHINA</span><h3>Beijing protests new US chip curbs</h3><p>Commerce Ministry &ldquo;strongly dissatisfied&rdquo; with remote-access limits; retaliation pledged. 6G pilots approved for 8 provinces.</p></div>
+    <div class="story"><span class="kicker">UK</span><h3>London sanctions West Bank settlement firms</h3><p>Eight builders hit; aid-blocking group blacklisted. Mauritius sets Dec. deadline over Chagos.</p></div>
+    <div class="story"><span class="kicker">GERMANY</span><h3>Deutsche Bank falls on Trump tax-error leak</h3><p>Shares slide as document blunder surfaces.</p></div>
+    <div class="story"><span class="kicker">PAKISTAN</span><h3>$30B Saudi energy deal signed</h3><p>Pipeline toward Gwadar; current account posts $39M surplus.</p></div>
+    <div class="story"><span class="kicker">RUSSIA</span><h3>Military An-12 crashes in Siberia</h3><p>All 19 aboard killed near Kemerovo. Serbian MiG-29 crash kills pilot.</p></div>
+    <div class="story"><span class="kicker">GAZA</span><h3>WHO chief urges unobstructed aid</h3><p>Floods expose thousands to cold and disease in fourth winter of war.</p></div>
+    <div class="story"><span class="kicker">VATICAN</span><h3>Pope Leo XIV struck by rosary bracelet</h3><p>Video shows him hit in the face during audience; unhurt.</p></div>
+    <div class="story"><span class="kicker">BALKANS</span><h3>Tha&ccedil;i sentenced to 17 months</h3><p>Kosovo ex-president convicted of witness interference. Mongolia&rsquo;s president to quit amid corruption claims.</p></div>
+    <div class="story"><span class="kicker">INDIA</span><h3>Tanker crew evacuated after Hormuz attack</h3><p>21 of 24 Indian seamen safe ashore; one still missing.</p></div>
+    <div class="story"><span class="kicker">VENEZUELA</span><h3>Unions stage 24-hour strike</h3><p>Wage protests at Caracas palace. Paraguay&rsquo;s attorney general quits.</p></div>
+    <div class="story"><span class="kicker">FRANCE</span><h3>Court suspends school protest ban</h3><p>Paris order barring gatherings near schools pulled.</p></div>
+    <div class="story"><span class="kicker">US FIRMS</span><h3>Huang to testify before three House panels</h3><p>Ex-Nvidia CEO and general counsel agree to interviews.</p></div>
+    <div class="story"><span class="kicker">AI</span><h3>OpenAI launches GPT-6.2 Astra</h3><p>Priced at $8/M input, $40/M output tokens.</p></div>
+    <div class="story"><span class="kicker">CANADA</span><h3>Carney, Xi agree tariff relief</h3><p>New commercial deals despite US pressure.</p></div>
+    <div class="story"><span class="kicker">CHINA SCIENCE</span><h3>Scientist fired after gene-trial death</h3><p>Girl died after experimental therapy for non-life-threatening condition.</p></div>
+    <div class="story"><span class="kicker">ASIA</span><h3>Kim Jong Un tours ski resort</h3><p>Appears with wife and daughter amid launch buzz.</p></div>
+    <div class="story"><span class="kicker">DENMARK</span><h3>Denmark hosts Tetris world showdown</h3><p>Dutch champion takes the crown.</p></div>
+    <div class="story"><span class="kicker">CENTRAL ASIA</span><h3>Uzbekistan&rsquo;s mountain trails draw visitors</h3><p>Lakes and paths busy in every season.</p></div>
   </div>
-  <div class="footer">
-    <span class="f1">NOVEMBER 18, 2026 — WORLD NEWS IN ONE IMAGE</span>
-    <span class="f2">AI-generated news digest · sources: Reuters / Guardian / Xinhua / AA</span>
+  <div class="dateflash">
+    <span class="d">NOVEMBER 18, 2026 &mdash; THE DAY IN ONE PAGE</span>
+    <span class="s">AI-generated digest &middot; sources: Reuters, Guardian, Xinhua, AA, Dawn, CLS</span>
   </div>
 </div>
 </body>
